@@ -28,7 +28,7 @@ app.use('/users', users);
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
-    feedContent(res, keyword);
+    feedContent(from, keyword);
     res.end();
 });
 
@@ -95,7 +95,7 @@ function getNews(phone, keyword) {
     });
 }
 
-function feedContent(res, keyword) {
+function feedContent(phone, keyword) {
     console.log('feedContent');
     //return getNews(res, keyword);
     getNews(phone, keyword);
