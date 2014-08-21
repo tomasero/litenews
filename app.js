@@ -26,7 +26,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.post('/incoming', function(req, res) {
-    var keyword = req.body.Body;
+    var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
     feedContent(from, keyword);
 
