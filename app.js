@@ -28,7 +28,8 @@ app.use('/users', users);
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
-    return feedContent(res, keyword);
+    feedContent(res, keyword);
+    res.end();
 });
 
 
@@ -73,7 +74,7 @@ function respondNews(res, message) {
     return res.send(resp.toString());
 }
 
-function getNews(res, keyword) {
+function getNews(phone, keyword) {
     console.log(keyword);
     var url = 'http://bitofnews.com/api/'+keyword+'/';
     http.get(url, function(response) {
@@ -89,14 +90,15 @@ function getNews(res, keyword) {
             var title = firstNews.title;
             var message = firstNews.sentences[0];
             console.log(message);
-            return respondNews(res, message);
+            sendNews(phone, message);
         });
     });
 }
 
 function feedContent(res, keyword) {
     console.log('feedContent');
-    return getNews(res, keyword);
+    //return getNews(res, keyword);
+    getNews(phone, keyword);
 }
 
 /// catch 404 and forward to error handler
