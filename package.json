@@ -2,8 +2,13 @@
   "name": "litenews",
   "version": "0.0.1",
   "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomasero/litenews.git"
   },
   "dependencies": {
     "express": "~4.2.0",
