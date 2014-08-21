@@ -29,7 +29,7 @@ app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
     feedContent(from, keyword);
-
+    res.end();
 });
 
 
