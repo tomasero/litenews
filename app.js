@@ -28,8 +28,7 @@ app.use('/users', users);
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
-    feedContent(from, keyword);
-    res.end();
+    feedContent(res, keyword);
 });
 
 
@@ -66,7 +65,14 @@ function sendNews(phone, message) {
     });
 }
 
-function getNews(phone, keyword) {
+function respondNews(res, message) {
+    var resp = new twilio.TwimlResponse();
+    resp.message('Thanks for the message!')
+    res.type('text/xml');
+    return res.send(resp.toString());
+}
+
+function getNews(res, keyword) {
     console.log(keyword);
     var url = 'http://bitofnews.com/api/'+keyword+'/';
     http.get(url, function(response) {
@@ -86,14 +92,14 @@ function getNews(phone, keyword) {
             var message = firstNews.sentences[0];
             console.log('message');
             console.log(message);
-            sendNews(phone, message);
+            respondNews(res, message);
         });
     });
 }
 
-function feedContent(phone, keyword) {
+function feedContent(res, keyword) {
     console.log('feedContent');
-    getNews(phone, keyword);
+    getNews(res, keyword);
 }
 
 /// catch 404 and forward to error handler
@@ -127,5 +133,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
+app.listen(3000);
 module.exports = app;
