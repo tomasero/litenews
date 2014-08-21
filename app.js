@@ -67,7 +67,7 @@ function sendNews(phone, message) {
 
 function respondNews(res, message) {
     var resp = new twilio.TwimlResponse();
-    resp.message('Thanks for the message!')
+    resp.message(message);
     res.type('text/xml');
     return res.send(resp.toString());
 }
