@@ -50,7 +50,7 @@ var client = require('twilio')(accountSid, authToken);
 // REST client will handle authentication and response serialzation for you.
 function sendNews(phone, message) {
     client.sendSms({
-        to: "+"+phone, //my own phone number
+        to: phone, //my own phone number
         from: '+1 510-900-8110', //twilio number
         body: message
     }, function(error, message) {
