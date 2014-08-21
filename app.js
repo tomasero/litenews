@@ -28,7 +28,7 @@ app.use('/users', users);
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
-    feedContent(res, keyword);
+    return feedContent(res, keyword);
 });
 
 
@@ -92,7 +92,7 @@ function getNews(res, keyword) {
             var message = firstNews.sentences[0];
             console.log('message');
             console.log(message);
-            respondNews(res, message);
+            return respondNews(res, message);
         });
     });
 }
