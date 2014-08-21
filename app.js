@@ -69,6 +69,7 @@ function respondNews(res, message) {
     var resp = new twilio.TwimlResponse();
     resp.message(message);
     res.type('text/xml');
+    console.log(resp.toString());
     return res.send(resp.toString());
 }
 
@@ -84,13 +85,9 @@ function getNews(res, keyword) {
         response.on('error', console.error);
         response.on('end', function() {
             console.log('end');
-            console.log(out);
             var firstNews = JSON.parse(out)[0];
-            console.log('parse');
             var title = firstNews.title;
-            console.log('title');
             var message = firstNews.sentences[0];
-            console.log('message');
             console.log(message);
             return respondNews(res, message);
         });
@@ -133,5 +130,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.listen(3000);
+var port = Number(process.env.PORT || 5000);
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
+
 module.exports = app;
