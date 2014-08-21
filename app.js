@@ -99,7 +99,7 @@ function getNews(res, keyword) {
 
 function feedContent(res, keyword) {
     console.log('feedContent');
-    getNews(res, keyword);
+    return getNews(res, keyword);
 }
 
 /// catch 404 and forward to error handler
