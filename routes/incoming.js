@@ -6,7 +6,7 @@ var currentNews = null;
 var newsCounter = 0;
 var sentenceCounter = 0;
 
-router.post('/incoming', function(req, res) {
+app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (keyword == 'more') {
         if (newsArray != null) {
@@ -58,7 +58,7 @@ router.post('/incoming', function(req, res) {
     }
 });
 
-module.exports = router;
+
 
 /**
 // Load the twilio module

@@ -25,9 +25,71 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/incoming', incoming);
+/**
+app.post('/incoming', function(req, res) {
+    var keyword = req.body.Body.toLowerCase();
+    var from = req.body.From;
+    feedContent(from, keyword);
+    res.end();
+});
+**/
 
+var newsArray = null;
+var currentNews = null;
+var newsCounter = 0;
+var sentenceCounter = 0;
 
+app.post('/incoming', function(req, res) {
+    var keyword = req.body.Body.toLowerCase();
+    if (keyword == 'more') {
+        if (newsArray != null) {
+            if (currentNews != null && sentenceCounter < currentNews.sentences.length) {
+                var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
+                sentenceCounter++;
+                res.send(response);
+            } else {
+                sentenceCounter = 0;
+                var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
+                res.send(response);
+            }
+        } else {
+            var response = '<Response><Sms>No current news, do a new search!</Sms></Response>';
+            res.send(response);
+        }
+    } else if (keyword == 'tech' || keyword == 'world' | keyword == 'business') {
+        var url = 'http://bitofnews.com/api/'+keyword+'/';
+        restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
+            newsArray = news;
+            currentNews = news[newsCounter];
+            var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
+            newsCounter++;
+            res.send(response);
+        });
+    } else if (keyword == 'next') {
+        sentenceCounter = 0;
+        if (newsArray != null) {
+            if (newsCounter < newsArray.length) {
+                currentNews = newsArray[newsCounter];
+                var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
+                newsCounter++;
+                res.send(response);
+            } else {
+                newsArray = null;
+                currentNews = null;
+                newsCounter = 0;
+                sentenceCounter = 0;
+                var response = '<Response><Sms>No more news, try a new topic</Sms></Response>';
+                res.send(response);
+            }
+        } else {
+            var response = '<Response><Sms>No current news, do a new search!</Sms></Response>';
+            res.send(response);
+        }
+    } else {
+        var response = '<Response><Sms>We can\'t find news about that topic</Sms></Response>';
+        res.send(response);
+    }
+});
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
