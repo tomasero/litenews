@@ -46,7 +46,7 @@ app.post('/incoming', function(req, res) {
         if (index > 0 && index <= newsArray.length) {
             currentNews = newsArray[index];
             sentenceCounter = 0;
-            var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
+            var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
         } else {
             var response = '<Response><Sms>Number outside range</Sms></Response>';
         }
