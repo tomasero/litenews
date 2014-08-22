@@ -60,12 +60,13 @@ app.post('/incoming', function(req, res) {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
-            currentNews = news[0];
+            currentNews = news[newsCounter];
             var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
+            newsCounter++;
             res.send(response);
         });
     } else if (keyword == 'next') {
-        newsCounter++;
+        sentenceCounter = 0;
         if (newsArray != null) {
             if (newsCounter < newsArray.length) {
                 currentNews = newsArray[newsCounter];
