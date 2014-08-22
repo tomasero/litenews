@@ -6,7 +6,7 @@ var currentNews = null;
 var newsCounter = 0;
 var sentenceCounter = 0;
 
-router.get('/incoming', function(req, res) {
+router.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (keyword == 'more') {
         if (newsArray != null) {
