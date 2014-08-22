@@ -42,10 +42,10 @@ var sentenceCounter = 0;
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (keyword == 'more') {
-        sentenceCounter++;
         if (newsArray != null) {
             if (currentNews != null && sentenceCounter < currentNews.sentences.length) {
                 var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
+                sentenceCounter++;
                 res.send(response);
             } else {
                 sentenceCounter = 0;
@@ -61,7 +61,7 @@ app.post('/incoming', function(req, res) {
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
             currentNews = news[0];
-            var response = '<Response><Sms>' + currentNews.sentences[0] + '</Sms></Response>';
+            var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
             res.send(response);
         });
     } else if (keyword == 'next') {
@@ -69,7 +69,8 @@ app.post('/incoming', function(req, res) {
         if (newsArray != null) {
             if (newsCounter < newsArray.length) {
                 currentNews = newsArray[newsCounter];
-                var response = '<Response><Sms>' + currentNews.sentences[0] + '</Sms></Response>';
+                var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
+                newsCounter++;
                 res.send(response);
             } else {
                 newsArray = null;
