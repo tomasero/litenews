@@ -33,18 +33,58 @@ app.post('/incoming', function(req, res) {
     res.end();
 });
 **/
+
+    var newsArray = null;
+    var currentNews = null;
+    var newsCounter = 0;
+    var sentenceCounter = 0;
+
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
-    console.log(keyword);
-    var url = 'http://bitofnews.com/api/'+keyword+'/';
-    restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
-        var titles = "<Response>";
-        for(var i=0; i<5; i++) {
-            titles += "<Sms>" + news[0].sentences[i] + "</Sms>";
+    if (keyword == more) {
+        sentenceCounter++;
+        if (newsArray != null) {
+            if (currentNews != null && sentenceCounter < currentNews.length) {
+                var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
+                res.send(response);
+            } else {
+                sentenceCounter = 0;
+                var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
+                res.send(response);
+            }
+        } else {
+            var response = '<Response><Sms>No current news, do a new search!</Sms></Response>';
+            res.send(response);
         }
-        titles += "</Response>";
-        res.send(titles);
-    });
+    } else if (keyword == 'tech' || keyword == 'world' | keyword == 'business') {
+        var url = 'http://bitofnews.com/api/'+keyword+'/';
+        restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
+            newsArray = news;
+            currentNews = news[0];
+            var response = '<Response><Sms>' + currentNews.sentences[0] + '</Sms></Response>';
+            res.send(response);
+        });
+    } else if (keyword == 'next') {
+        newsCounter++;
+        if (newsArray != null) {
+            if (newsCounter < newsArray.length) {
+                var response = '<Response><Sms>' + newsArray[newsCounter].sentences[0] + '</Sms></Response>';
+                res.send(response);
+            } else {
+                newsArray = null;
+                newsCounter = 0;
+                sentenceCounter = 0;
+                var response = '<Response><Sms>No more news, try a new topic</Sms></Response>';
+                res.send(response);
+            }
+        } else {
+            var response = '<Response><Sms>No current news, do a new search!</Sms></Response>';
+            res.send(response);
+        }
+    } else {
+        var response = '<Response><Sms>We can\'t find news about that topic</Sms></Response>';
+        res.send(response);
+    }
 });
 
 // Load the twilio module
