@@ -83,8 +83,8 @@ app.post('/incoming', function(req, res) {
 function getHeadlines(array) {
     var output = '<Response>';
     for (var i = 0; i < array.length; i++) {
-        
-        var response = '<Sms>[' + i+1 + '] ' + array[i].title + '</Sms>';
+        var index = i+1;
+        var response = '<Sms>[' + index + '] ' + array[i].title + '</Sms>';
         output += response;
     }
     output += '</Response>'
