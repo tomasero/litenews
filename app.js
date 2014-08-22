@@ -33,18 +33,19 @@ app.post('/incoming', function(req, res) {
     res.end();
 });
 **/
-app.post('/incoming'), function(req, res) {
+app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
+    console.log(keyword);
     var url = 'http://bitofnews.com/api/'+keyword+'/';
-    restler.get(url).on('complete', function(news) {
+    restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
         var titles = "<Response>";
         for(var i=0; i<5; i++) {
-            titles += "<Sms>" + news.data.children[i].data.title + "</Sms>";
+            titles += "<Sms>" + news[0].sentences[i] + "</Sms>";
         }
         titles += "</Response>";
-        response.send(titles);
+        res.send(titles);
     });
-}
+});
 
 // Load the twilio module
 var twilio = require('twilio');
