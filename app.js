@@ -34,10 +34,10 @@ app.post('/incoming', function(req, res) {
 });
 **/
 
-    var newsArray = null;
-    var currentNews = null;
-    var newsCounter = 0;
-    var sentenceCounter = 0;
+var newsArray = null;
+var currentNews = null;
+var newsCounter = 0;
+var sentenceCounter = 0;
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
@@ -48,6 +48,7 @@ app.post('/incoming', function(req, res) {
                 var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
                 res.send(response);
             } else {
+                var check = currentNews == null;
                 res.send('<Response><Sms>' + currentNews + '</Sms></Response>');
                 sentenceCounter = 0;
                 var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
