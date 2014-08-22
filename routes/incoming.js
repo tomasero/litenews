@@ -54,7 +54,8 @@ app.post('/incoming', function(req, res) {
 });
 
 function toSMS(something) {
-    return '<Response><Sms>' + something + '</Sms></Response>';
+    var response = '<Response><Sms>' + something + '</Sms></Response>';
+    return response;
 }
 
 /**
