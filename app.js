@@ -60,11 +60,12 @@ app.post('/incoming', function(req, res) {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
-            var response = "";
+            var output = "";
             for (var i = 0; i < newsArray.length; i++) {
-                response += '<Response><Sms>[' + i + '] ' + newsArray[i].title + '</Sms></Response>';
+                var response = '<Response><Sms>[' + i + '] ' + newsArray[i].title + '</Sms></Response>';
+                output += response;
             }
-            res.send(response);
+            res.send(output);
         });
     } else if (keyword == 'next') {
         sentenceCounter = 0;
