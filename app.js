@@ -48,6 +48,7 @@ app.post('/incoming', function(req, res) {
                 var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
                 res.send(response);
             } else {
+                res.send("" + currentNews.length);
                 sentenceCounter = 0;
                 var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
                 res.send(response);
@@ -68,10 +69,12 @@ app.post('/incoming', function(req, res) {
         newsCounter++;
         if (newsArray != null) {
             if (newsCounter < newsArray.length) {
-                var response = '<Response><Sms>' + newsArray[newsCounter].sentences[0] + '</Sms></Response>';
+                currentNews = newsArray[newsCounter];
+                var response = '<Response><Sms>' + currentNews.sentences[0] + '</Sms></Response>';
                 res.send(response);
             } else {
                 newsArray = null;
+                currentNews = null;
                 newsCounter = 0;
                 sentenceCounter = 0;
                 var response = '<Response><Sms>No more news, try a new topic</Sms></Response>';
