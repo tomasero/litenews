@@ -40,13 +40,14 @@ var sentenceCounter = 0;
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
-    
     if (!isNaN(keyword)) {
         var index = Number(keyword) + 1;
+        var test = '<Response><Sms>'+index+'</Sms></Response>';
+        res.send(test);
         if (index > 0 && index <= newsArray.length) {
             currentNews = newsArray[index];
             sentenceCounter = 0;
-            var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
+            var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
         } else {
             var response = '<Response><Sms>Number outside range</Sms></Response>';
         }
