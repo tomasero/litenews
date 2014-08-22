@@ -48,7 +48,7 @@ app.post('/incoming', function(req, res) {
                 var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
                 res.send(response);
             } else {
-                res.send("" + currentNews.length);
+                res.send('<Response><Sms>' + currentNews.length + '</Sms></Response>');
                 sentenceCounter = 0;
                 var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
                 res.send(response);
