@@ -5,6 +5,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var restler = require('restler');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,14 +25,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-
+/**
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     var from = req.body.From;
     feedContent(from, keyword);
     res.end();
 });
-
+**/
+app.post('/incoming'), function(req, res) {
+    var keyword = req.body.Body.toLowerCase();
+    var url = 'http://bitofnews.com/api/'+keyword+'/';
+    restler.get(url).on('complete', function(news) {
+        var titles = "<Response>";
+        for(var i=0; i<5; i++) {
+            titles += "<Sms>" + news.data.children[i].data.title + "</Sms>";
+        }
+        titles += "</Response>";
+        response.send(titles);
+    });
+}
 
 // Load the twilio module
 var twilio = require('twilio');
@@ -88,7 +101,7 @@ function getNews(phone, keyword) {
             console.log('end');
             var firstNews = JSON.parse(out)[0];
             var title = firstNews.title;
-            var message = firstNews.sentences[0];
+            var message = firstNews.sentences[0].substring(0, 160);
             console.log(message);
             sendNews(phone, message);
         });
