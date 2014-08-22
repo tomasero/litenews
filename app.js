@@ -44,11 +44,10 @@ app.post('/incoming', function(req, res) {
     if (keyword == 'more') {
         sentenceCounter++;
         if (newsArray != null) {
-            if (currentNews != null && sentenceCounter < currentNews.length) {
+            if (currentNews != null && sentenceCounter < currentNews.sentences.length) {
                 var response = '<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>';
                 res.send(response);
             } else {
-                res.send('<Response><Sms>' + currentNews.sentences[sentenceCounter] + '</Sms></Response>');
                 sentenceCounter = 0;
                 var response = '<Response><Sms>Try writing \'next\' or a new topic</Sms></Response>';
                 res.send(response);
