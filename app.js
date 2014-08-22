@@ -41,7 +41,7 @@ app.post('/incoming', function(req, res) {
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
-    if (keyword == more) {
+    if (keyword == 'more') {
         sentenceCounter++;
         if (newsArray != null) {
             if (currentNews != null && sentenceCounter < currentNews.length) {
