@@ -58,14 +58,12 @@ app.post('/incoming', function(req, res) {
         }
     } else if (keyword == 'tech' || keyword == 'world' | keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
-        newsCounter = 0;
-        sentenceCounter = 0;
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
-            currentNews = news[newsCounter];
-            var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
-            newsCounter++;
-            res.send(response);
+            for (var i = 0; i < newsArray.length; i++) {
+                var response = '<Response><Sms>[' + i + '] ' + newsArray[i].title + '</Sms></Response>';
+                res.send(response);
+            }
         });
     } else if (keyword == 'next') {
         sentenceCounter = 0;
