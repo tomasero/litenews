@@ -58,8 +58,8 @@ app.post('/incoming', function(req, res) {
         }
     } else if (keyword == 'tech' || keyword == 'world' | keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
-        var newsCounter = 0;
-        var sentenceCounter = 0;
+        newsCounter = 0;
+        sentenceCounter = 0;
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
             currentNews = news[newsCounter];
