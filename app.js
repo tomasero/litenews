@@ -90,7 +90,8 @@ app.post('/incoming', function(req, res) {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
-            res.send(toResponse(getHeadlines(newsArray)));
+            var response = getHeadlines(newsArray);
+            res.send(toResponse(response));
         });
     } else {
         var response = toSMS('We can\'t find news about that topic');
