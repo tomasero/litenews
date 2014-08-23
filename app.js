@@ -41,41 +41,44 @@ var moreInfo = false;
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (!isNaN(keyword)) {
+        var response = '';
         if (newsArray != null) {
             var index = Number(keyword);
             if (index > 0 && index <= newsArray.length) {
                 currentNews = newsArray[index-1];
                 moreInfo = false;
-                var response = toSMS(currentNews.title);
+                response = toSMS(currentNews.title);
             } else {
-                var response = toSMS('Number outside range');
+                response = toSMS('Number outside range');
             }
         } else {
-            var response = toSMS('Select a news topic first!');
+            response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
     } else if (keyword == 'more') {
+        var response = '';
         if (newsArray != null) {
             if (currentNews != null) {
                 if (!moreInfo) {
-                    var response = getMoreInfo(currentNews.sentences);
+                    response = getMoreInfo(currentNews.sentences);
                     moreInfo = true;
                 } else {
-                    var response = toSMS('More info already given, try a new topic or enter \'list\'');
+                    response = toSMS('More info already given, try a new topic or enter \'list\'');
                 }
             } else {
-                var response = toSMS('Select a headline index');
+                response = toSMS('Select a headline index');
             }
         } else {
-            var response = toSMS('Select a news topic first!');
+            response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
     } else if (keyword == 'list') {
+        var response = '';
         if (newsArray != null) {
             currentNews = null;
-            var response = getHeadlines(newsArray);
+            response = getHeadlines(newsArray);
         } else {
-            var response = toSMS('Select a news topic first!');
+            response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
     } else if (keyword == 'reset') {
