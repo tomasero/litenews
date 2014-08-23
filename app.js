@@ -44,7 +44,7 @@ app.post('/incoming', function(req, res) {
         if (newsArray != null) {
             var index = Number(keyword);
             if (index > 0 && index <= newsArray.length) {
-                currentNews = newsArray[index];
+                currentNews = newsArray[index-1];
                 moreInfo = false;
                 var response = '<Response><Sms>' + currentNews.title + '</Sms></Response>';
             } else {
