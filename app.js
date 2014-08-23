@@ -79,9 +79,9 @@ app.post('/incoming', function(req, res) {
         }
         res.send(toResponse(response));
     } else if (keyword == 'reset') {
-        var newsArray = null;
-        var currentNews = null;
-        var moreInfo = false;
+        newsArray = null;
+        currentNews = null;
+        moreInfo = false;
         res.send(toResponse(toSMS('Reset succesful')));
     } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
