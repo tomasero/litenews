@@ -41,56 +41,49 @@ var moreInfo = false;
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (!isNaN(keyword)) {
-        var response = '';
         if (newsArray != null) {
             var index = Number(keyword);
             if (index > 0 && index <= newsArray.length) {
                 currentNews = newsArray[index-1];
                 moreInfo = false;
-                response = toSMS(currentNews.title);
+                var response = toSMS(currentNews.title);
             } else {
-                response = toSMS('Number outside range');
+                var response = toSMS('Number outside range');
             }
         } else {
-            response = toSMS('Select a news topic first!');
+            var response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
     } else if (keyword == 'more') {
-        var response = '';
         if (newsArray != null) {
             if (currentNews != null) {
                 if (!moreInfo) {
-                    response = getMoreInfo(currentNews.sentences);
+                    var response = getMoreInfo(currentNews.sentences);
                     moreInfo = true;
                 } else {
-                    response = toSMS('More info already given, try a new topic or enter \'list\'');
+                    var response = toSMS('More info already given, try a new topic or enter \'list\'';
                 }
             } else {
-                response = toSMS('Select a headline index');
+                var response = toSMS('Select a headline index');
             }
         } else {
-            response = toSMS('Select a news topic first!');
+            var response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
     } else if (keyword == 'list') {
         if (newsArray != null) {
             currentNews = null;
-            res.send(toResponse(getHeadlines(newsArray)));
-        } else {
-            var response = toSMS('Choose a topic first!')
-            res.send(toResponse(response));
+            res.send(getHeadlines(newsArray));            
         }
     } else if (keyword == 'reset') {
         newsArray = null;
         currentNews = null;
         moreInfo = false;
-        var response = toSMS('Reset succesful');
-        res.send(toResponse(response));
     } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
-            res.send(toResponse(getHeadlines(newsArray)));
+            res.send(getHeadlines(newsArray));
         });
     } else {
         var response = toSMS('We can\'t find news about that topic');
@@ -105,7 +98,7 @@ function getHeadlines(array) {
         var response = toSMS('[' + index + '] ' + array[i].title);
         output += response;
     }
-    return output;
+    return toResponse(output);
 }
 
 function getMoreInfo(sentences) {
@@ -114,7 +107,7 @@ function getMoreInfo(sentences) {
         var response = toSMS(sentences[i]);
         output += response;
     }
-    return output;
+    return toResponse(output);
 }
 
 function toSMS(text) {
