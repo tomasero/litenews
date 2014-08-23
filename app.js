@@ -73,7 +73,12 @@ app.post('/incoming', function(req, res) {
     } else if (keyword == 'list') {
         currentNews = null;
         res.send(getHeadlines(newsArray));
-    } else if (keyword == 'tech' || keyword == 'world' | keyword == 'business') {
+    } else if (keyword == 'reset') {
+        var newsArray = null;
+        var currentNews = null;
+        var moreInfo = false;
+    }
+    } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
             newsArray = news;
