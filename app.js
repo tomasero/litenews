@@ -61,7 +61,7 @@ app.post('/incoming', function(req, res) {
                     var response = getMoreInfo(currentNews.sentences);
                     moreInfo = true;
                 } else {
-                    var response = toSMS('More info already given, try a new topic or enter \'list\'';
+                    var response = toSMS('More info already given, try a new topic or type list');
                 }
             } else {
                 var response = toSMS('Select a headline index');
@@ -71,10 +71,12 @@ app.post('/incoming', function(req, res) {
         }
         res.send(toResponse(response));
     } else if (keyword == 'list') {
-        if (newsArray != null) {
-            currentNews = null;
-            res.send(getHeadlines(newsArray));            
-        }
+        currentNews = null;
+        res.send(getHeadlines(newsArray));
+    } else if (keyword == 'reset') {
+        var newsArray = null;
+        var currentNews = null;
+        var moreInfo = false;
     } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
@@ -85,7 +87,7 @@ app.post('/incoming', function(req, res) {
         var response = toSMS('We can\'t find news about that topic');
         res.send(toResponse(response));
     }
-});
+})
 
 function getHeadlines(array) {
     var output = '';
