@@ -75,10 +75,6 @@ app.post('/incoming', function(req, res) {
             currentNews = null;
             res.send(getHeadlines(newsArray));            
         }
-    } else if (keyword == 'reset') {
-        newsArray = null;
-        currentNews = null;
-        moreInfo = false;
     } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
         restler.get(url, { parser: restler.parsers.json }).on('complete', function(news) {
@@ -89,7 +85,7 @@ app.post('/incoming', function(req, res) {
         var response = toSMS('We can\'t find news about that topic');
         res.send(toResponse(response));
     }
-})
+});
 
 function getHeadlines(array) {
     var output = '';
