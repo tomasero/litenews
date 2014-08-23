@@ -40,6 +40,7 @@ var moreInfo = false;
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
+    res.send(toResponse(toSMS('incoming')));
     if (!isNaN(keyword)) {
         var response = '';
         if (newsArray != null) {
