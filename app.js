@@ -40,7 +40,6 @@ var moreInfo = false;
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
-    var text = 
     res.send('<Response><Sms>incoming</Sms></Response>');
     if (!isNaN(keyword)) {
         var response = '';
