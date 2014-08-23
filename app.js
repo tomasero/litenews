@@ -41,7 +41,7 @@ var sentenceCounter = 0;
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     if (!isNaN(keyword)) {
-        var index = Number(keyword) + 1;
+        var index = Number(keyword);
         var test = '<Response><Sms>'+index+'</Sms></Response>';
         res.send(test);
         if (index > 0 && index <= newsArray.length) {
