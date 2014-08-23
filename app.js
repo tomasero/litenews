@@ -41,6 +41,7 @@ var moreInfo = false;
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
     res.send(toResponse(toSMS(keyword)));
+    /**
     if (!isNaN(keyword)) {
         var response = '';
         if (newsArray != null) {
@@ -98,6 +99,7 @@ app.post('/incoming', function(req, res) {
         var response = toSMS('We can\'t find news about that topic');
         res.send(toResponse(response));
     }
+    **/
 });
 
 function getHeadlines(array) {
