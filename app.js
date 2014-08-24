@@ -40,7 +40,6 @@ var moreInfo = false;
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
-    res.writeHead(200, {'Content-Type': 'text/xml'});
     if (!isNaN(keyword)) {
         var response = '';
         if (newsArray != null) {
