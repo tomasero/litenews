@@ -72,6 +72,18 @@ app.post('/incoming', function(req, res) {
             response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
+    } else if (keyword == 'link') {
+        var response = '';
+        if (newsArray != null) {
+            if (currentNews != null) {
+                    response = toSMS(currentNews.url);
+            } else {
+                response = toSMS('Select a headline index');
+            }
+        } else {
+            response = toSMS('Select a news topic first!');
+        }
+        res.send(toResponse(response));
     } else if (keyword == 'list') {
         var response = '';
         if (newsArray != null) {
