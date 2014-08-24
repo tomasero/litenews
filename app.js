@@ -113,7 +113,8 @@ function getHeadlines(array) {
 function getMoreInfo(sentences) {
     var output = '';
     for (var i = 0; i < sentences.length; i++) {
-        var response = toSMS(sentences[i]);
+        var index = i+1;
+        var response = toSMS('[' + index  + '/' + sentences.length+ '] ' + sentences[i]);
         output += response;
     }
     return output;
