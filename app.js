@@ -38,7 +38,7 @@ var newsArray = null;
 var currentNews = null;
 var moreInfo = false;
 var commands = ['more', 'help', 'link', 'list', 'reset', 'topics'];
-var topics = ['tech', 'business']
+var topics = ['tech', 'world']
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
@@ -57,18 +57,16 @@ app.post('/incoming', function(req, res) {
             response = toSMS('Select a news topic first!');
         }
         res.send(toResponse(response));
-    } else if (keyword == 'help') {
-        var newLine = '%0a';
+    } else if (keyword == '?') {
         var response = '';
         for (var i = 0; i < commands.length; i++) {
-            response = response + commands[i] + newLine;
+            response = response + commands[i] + '\n';
         }
         res.send(toResponse(toSMS(response)));
     } else if (keyword == 'topics') {
-        var newLine = '%0a';
         var response = '';
         for (var i = 0; i < topics.length; i++) {
-            response = response + topics[i] + newLine;
+            response = response + topics[i] + '\n';
         }
         res.send(toResponse(toSMS(response)));       
     } else if (keyword == 'more') {
