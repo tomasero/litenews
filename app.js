@@ -36,7 +36,6 @@ app.post('/incoming', function(req, res) {
 
 var newsArray = null;
 var currentNews = null;
-var moreInfo = false;
 var commands = ['more', 'help', 'link', 'list', 'reset', 'topics'];
 var topics = ['tech', 'world']
 
@@ -48,8 +47,7 @@ app.post('/incoming', function(req, res) {
             var index = Number(keyword);
             if (index > 0 && index <= newsArray.length) {
                 currentNews = newsArray[index-1];
-                moreInfo = false;
-                response = toSMS(currentNews.title);
+                response = getMoreInfo(currentNews.sentences);
             } else {
                 response = toSMS('Number outside range');
             }
@@ -69,23 +67,6 @@ app.post('/incoming', function(req, res) {
             response = response + topics[i] + '\n';
         }
         res.send(toResponse(toSMS(response)));       
-    } else if (keyword == 'more') {
-        var response = '';
-        if (newsArray != null) {
-            if (currentNews != null) {
-                if (!moreInfo) {
-                    response = getMoreInfo(currentNews.sentences);
-                    moreInfo = true;
-                } else {
-                    response = toSMS('More info already given, try a new topic or type list');
-                }
-            } else {
-                response = toSMS('Select a headline index');
-            }
-        } else {
-            response = toSMS('Select a news topic first!');
-        }
-        res.send(toResponse(response));
     } else if (keyword == 'link') {
         var response = '';
         if (newsArray != null) {
@@ -106,12 +87,6 @@ app.post('/incoming', function(req, res) {
         } else {
             response = toSMS('Select a news topic first!');
         }
-        res.send(toResponse(response));
-    } else if (keyword == 'reset') {
-        newsArray = null;
-        currentNews = null;
-        moreInfo = false;
-        var response = toSMS('Reset succesful');
         res.send(toResponse(response));
     } else if (keyword == 'tech' || keyword == 'world' || keyword == 'business') {
         var url = 'http://bitofnews.com/api/'+keyword+'/';
