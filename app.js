@@ -37,7 +37,7 @@ app.post('/incoming', function(req, res) {
 var newsArray = null;
 var currentNews = null;
 var commands = ['more', 'help', 'link', 'list', 'reset', 'topics'];
-var topics = ['tech', 'world']
+var topics = ['tech', 'world'];
 
 app.post('/incoming', function(req, res) {
     var keyword = req.body.Body.toLowerCase();
